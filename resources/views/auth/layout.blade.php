@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>@yield('title', 'Nexus') — Auth</title>
+<title>@yield('title', 'Laravel BladeAJX') — Auth</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 /* ── RESET & BASE ── */
@@ -304,7 +304,7 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;font-size:14px;color:var(
         </svg>
       </div>
       <div>
-        <div class="logo-text">NEXUS</div>
+        <div class="logo-text">Laravel BladeAJX</div>
         <div class="logo-sub">Admin Platform</div>
       </div>
     </div>

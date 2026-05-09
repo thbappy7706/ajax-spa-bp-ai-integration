@@ -3,7 +3,7 @@
 
 @section('auth-content')
 <h1 class="auth-heading">Welcome back</h1>
-<p class="auth-sub">Sign in to your Nexus account to continue.</p>
+<p class="auth-sub">Sign in to your Laravel BladeAJX account to continue.</p>
 
 {{-- Session / Validation Errors --}}
 @if(session('status'))

@@ -3,7 +3,7 @@
 
 @section('auth-content')
 <h1 class="auth-heading">Create account</h1>
-<p class="auth-sub">Join Nexus — it's free to get started.</p>
+<p class="auth-sub">Join Laravel BladeAJX — it's free to get started.</p>
 
 @if($errors->any())
   <div class="alert alert-error">
