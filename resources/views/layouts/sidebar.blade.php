@@ -44,6 +44,22 @@
            data-sub="Manage products — create, read, update, delete">
             <span class="ni-ic">◉</span><span class="nl">Products</span>
         </a>
+        <div class="slbl">CMS</div>
+        <a class="ni {{ request()->routeIs('categories') || request()->routeIs('categories.*') ? 'active' : '' }}"
+           href="{{ route('categories.index') }}" data-route="{{ route('categories.index') }}" data-title="Categories"
+           data-sub="Manage post categories">
+            <span class="ni-ic">📁</span><span class="nl">Categories</span>
+        </a>
+        <a class="ni {{ request()->routeIs('posts') || request()->routeIs('posts.*') ? 'active' : '' }}"
+           href="{{ route('posts.index') }}" data-route="{{ route('posts.index') }}" data-title="Posts"
+           data-sub="Manage blog posts">
+            <span class="ni-ic">📝</span><span class="nl">Posts</span>
+        </a>
+        <a class="ni {{ request()->routeIs('comments') || request()->routeIs('comments.*') ? 'active' : '' }}"
+           href="{{ route('comments.index') }}" data-route="{{ route('comments.index') }}" data-title="Comments"
+           data-sub="Manage user comments">
+            <span class="ni-ic">💬</span><span class="nl">Comments</span>
+        </a>
 
         <div class="slbl">Preferences</div>
         <a class="ni {{ request()->routeIs('profile') ? 'active' : '' }}" href="{{ route('profile') }}"

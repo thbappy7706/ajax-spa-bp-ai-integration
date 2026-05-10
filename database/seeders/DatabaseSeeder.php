@@ -41,5 +41,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user->assignRole($adminRole);
+
+        // Run ProductSeeder for 1 Lac products
+        $this->call(ProductSeeder::class);
+
+        // Run PostSeeder for 50k posts
+        $this->call(PostSeeder::class);
     }
 }

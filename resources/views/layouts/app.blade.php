@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="dark" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -101,6 +101,47 @@
     function closeDrawer() {
         document.getElementById('drawer-bg').classList.remove('open');
         document.getElementById('drawer').classList.remove('open');
+    }
+
+    // ── MODAL HELPERS ──
+    function openModal(title, bodyHtml, footerHtml = '', xl = false) {
+        const widthClass = xl ? 'style="width: 800px; max-width: 95vw;"' : '';
+        const modalHtml = `
+            <div class="modal fi" ${widthClass}>
+                <div class="mtitle">
+                    <span>${title}</span>
+                    <button onclick="closeModal(this)" style="background:none;border:none;cursor:pointer;color:var(--tm);font-size:18px;">×</button>
+                </div>
+                <div class="mbody" style="margin-bottom: 20px;">
+                    ${bodyHtml}
+                </div>
+                <div class="mfooter" style="display:flex;justify-content:flex-end;gap:10px;">
+                    ${footerHtml}
+                </div>
+            </div>
+        `;
+        const mbg = document.createElement('div');
+        mbg.className = 'mbg open auto-modal';
+        mbg.innerHTML = modalHtml;
+        mbg.onclick = function(e) {
+            if(e.target === mbg) closeModal(mbg);
+        }
+        document.body.appendChild(mbg);
+        
+        // Find focused elements or first input
+        setTimeout(() => {
+            const firstInput = mbg.querySelector('input, textarea, select');
+            if (firstInput) firstInput.focus();
+        }, 100);
+    }
+
+    function closeModal(element) {
+        const mbg = element.closest('.mbg');
+        if (mbg) {
+            mbg.querySelector('.modal').style.animation = 'fadeUp 0.15s ease reverse';
+            mbg.style.opacity = '0';
+            setTimeout(() => mbg.remove(), 150);
+        }
     }
 
     // ── TOASTER HELPER ──

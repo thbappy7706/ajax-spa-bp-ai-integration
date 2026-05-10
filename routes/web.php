@@ -41,6 +41,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::delete('/products/bulk-delete', [ProductController::class, 'bulkDestroy'])->name('products.bulk-destroy');
 
+// CMS
+    Route::resource('categories', \App\Http\Controllers\CategoryController::class);
+    Route::resource('posts', \App\Http\Controllers\PostController::class);
+    Route::resource('comments', \App\Http\Controllers\CommentController::class);
+
+
 // Preferences
     Route::get('/profile',    [PlaceholderController::class, 'profile'])->name('profile');
     Route::get('/appearance', [PlaceholderController::class, 'appearance'])->name('appearance');
