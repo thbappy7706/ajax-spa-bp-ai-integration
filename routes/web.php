@@ -49,7 +49,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 // Preferences
-    Route::get('/profile',    [PlaceholderController::class, 'profile'])->name('profile');
+    Route::get('/profile',    [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile',    [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::get('/appearance', [PlaceholderController::class, 'appearance'])->name('appearance');
 });
 
