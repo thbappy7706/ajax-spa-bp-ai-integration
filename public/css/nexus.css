@@ -72,11 +72,12 @@ body::before {
 
 #sb.col { width: var(--sc); }
 
-#sb.col .nl, .ltxt, .uinfo, .slbl {
-    opacity: 0; width: 0; overflow: hidden; white-space: nowrap;
+#sb.col .nl, #sb.col .ltxt, #sb.col .uinfo, #sb.col .slbl {
+    opacity: 0; width: 0; overflow: hidden; white-space: nowrap; margin: 0; padding: 0; border: none;
 }
-#sb.col .ni { justify-content: center; padding: 6px; }
-#sb.col .larea { padding: 12px 8px; justify-content: center; }
+#sb.col .ni { justify-content: center; padding: 10px; }
+#sb.col .larea { padding: 12px 0; justify-content: center; }
+#sb.col .uwrap { justify-content: center; padding: 6px 0; gap: 0 !important; }
 #sb.col .uinfo { display: none; }
 
 .larea {
@@ -131,7 +132,14 @@ body::before {
     font-weight: 600;
 }
 
-.ni-ic { font-size: 0.8rem; min-width: 16px; text-align: center; flex-shrink: 0; }
+.ni-ic { 
+    font-size: 0.8rem; 
+    min-width: 16px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    flex-shrink: 0; 
+}
 .nl { transition: opacity 0.2s, width 0.28s; overflow: hidden; }
 
 /* Collapse button */
