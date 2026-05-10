@@ -41,9 +41,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::delete('/products/bulk-delete', [ProductController::class, 'bulkDestroy'])->name('products.bulk-destroy');
 
-// System
-    Route::get('/settings', [PlaceholderController::class, 'settings'])->name('settings');
-    Route::get('/security', [PlaceholderController::class, 'security'])->name('security');
+// Preferences
+    Route::get('/profile',    [PlaceholderController::class, 'profile'])->name('profile');
+    Route::get('/appearance', [PlaceholderController::class, 'appearance'])->name('appearance');
 });
 
 require __DIR__.'/auth.php';

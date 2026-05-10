@@ -7,7 +7,7 @@
 @section('content')
 <div class="card" style="padding:14px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
-        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;">User Management</div>
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;">User Management</div>
         <button class="btn p" onclick="createUser()">＋ Add User</button>
     </div>
 
@@ -68,7 +68,7 @@
         let rolesHtml = roles.map(role => `
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
                 <input type="checkbox" name="roles[]" value="${role.name}" id="role-${role.id}" style="accent-color:var(--ac);">
-                <label for="role-${role.id}" style="font-size:10.5px;cursor:pointer;">${role.name}</label>
+                <label for="role-${role.id}" style="font-size:14px;cursor:pointer;">${role.name}</label>
             </div>
         `).join('');
 
@@ -139,7 +139,7 @@
                 <div class="fg" style="margin-bottom:12px;">
                     <label>Assign Roles</label>
                     <div style="background:var(--gs);padding:10px;border-radius:8px;border:1px solid var(--gb);">
-                        ${rolesHtml || '<span style="color:var(--tm);font-size:9px;">No roles found.</span>'}
+                        ${rolesHtml || '<span style="color:var(--tm);font-size:12px;">No roles found.</span>'}
                     </div>
                 </div>
             </form>
@@ -163,19 +163,19 @@
             <div style="display:flex;flex-direction:column;gap:15px;">
                 <div>
                     <label style="font-size:9px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;">Name</label>
-                    <div style="font-size:12px;font-weight:600;">${user.name}</div>
+                    <div style="font-size:15px;font-weight:600;">${user.name}</div>
                 </div>
                 <div>
                     <label style="font-size:9px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;">Email</label>
-                    <div style="font-size:12px;font-weight:600;">${user.email}</div>
+                    <div style="font-size:15px;font-weight:600;">${user.email}</div>
                 </div>
                 <div>
                     <label style="font-size:9px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;">Roles</label>
                     <div style="margin-top:5px;">${rolesHtml}</div>
                 </div>
                 <div>
-                    <label style="font-size:9px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;">Joined</label>
-                    <div style="font-size:11px;">${new Date(user.created_at).toLocaleDateString()}</div>
+                    <label style="font-size:12px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;">Joined</label>
+                    <div style="font-size:14px;">${new Date(user.created_at).toLocaleDateString()}</div>
                 </div>
             </div>
         `;
@@ -243,7 +243,7 @@
     .dataTables_wrapper .dataTables_processing, 
     .dataTables_wrapper .dataTables_paginate {
         color: var(--tm) !important;
-        font-size: 10px !important;
+        font-size: 12px !important;
         margin-bottom: 10px;
     }
     table.dataTable thead th {
@@ -251,7 +251,7 @@
         color: var(--tm) !important;
         font-weight: 500 !important;
         text-transform: uppercase;
-        font-size: 9px;
+        font-size: 11px;
         letter-spacing: 0.5px;
     }
     table.dataTable tbody tr {
@@ -261,7 +261,7 @@
     table.dataTable tbody td {
         border-top: 1px solid var(--gb) !important;
         padding: 10px 8px !important;
-        font-size: 10.5px;
+        font-size: 14px;
     }
     table.dataTable.no-footer {
         border-bottom: 1px solid var(--gb) !important;

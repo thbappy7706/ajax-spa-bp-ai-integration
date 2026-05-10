@@ -7,7 +7,7 @@
 @section('content')
 <div class="card" style="padding:14px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
-        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;">Role Management</div>
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;">Role Management</div>
         <button class="btn p" onclick="createRole()">＋ Add Role</button>
     </div>
 
@@ -66,7 +66,7 @@
         let permsHtml = perms.map(p => `
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;width:50%;float:left;">
                 <input type="checkbox" name="permissions[]" value="${p.name}" id="perm-${p.id}" style="accent-color:var(--ac);">
-                <label for="perm-${p.id}" style="font-size:10px;cursor:pointer;">${p.name}</label>
+                <label for="perm-${p.id}" style="font-size:13px;cursor:pointer;">${p.name}</label>
             </div>
         `).join('');
 
@@ -107,7 +107,7 @@
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;width:50%;float:left;">
                 <input type="checkbox" name="permissions[]" value="${p.name}" id="perm-${p.id}" 
                     ${rolePermNames.includes(p.name) ? 'checked' : ''} style="accent-color:var(--ac);">
-                <label for="perm-${p.id}" style="font-size:10px;cursor:pointer;">${p.name}</label>
+                <label for="perm-${p.id}" style="font-size:13px;cursor:pointer;">${p.name}</label>
             </div>
         `).join('');
 
@@ -193,7 +193,7 @@
     .dataTables_wrapper .dataTables_processing, 
     .dataTables_wrapper .dataTables_paginate {
         color: var(--tm) !important;
-        font-size: 10px !important;
+        font-size: 12px !important;
         margin-bottom: 10px;
     }
     table.dataTable thead th {
@@ -201,7 +201,7 @@
         color: var(--tm) !important;
         font-weight: 500 !important;
         text-transform: uppercase;
-        font-size: 9px;
+        font-size: 11px;
         letter-spacing: 0.5px;
     }
     table.dataTable tbody tr {
@@ -211,7 +211,7 @@
     table.dataTable tbody td {
         border-top: 1px solid var(--gb) !important;
         padding: 10px 8px !important;
-        font-size: 10.5px;
+        font-size: 14px;
     }
 </style>
 @endsection
