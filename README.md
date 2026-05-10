@@ -1,5 +1,5 @@
 
-# Laravel SPA (Blade + AJAX)
+# Laravel SPA(Blade + AJAX)
 
 A full-featured admin dashboard built with **Laravel**, **Blade**, and vanilla **AJAX/fetch** — no Vue, no React, no Inertia. Every sidebar click loads content without a page reload, while the URL updates and the back button works correctly.
 
