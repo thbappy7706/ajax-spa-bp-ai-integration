@@ -8,6 +8,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <style>
         :root {
             --bg: #080c14;
@@ -702,6 +705,116 @@
                 grid-template-columns:1fr !important;
             }
         }
+        /* DRAWER */
+        .drawer-bg {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(0, 0, 0, .4);
+            backdrop-filter: blur(4px);
+        }
+
+        .drawer-bg.open {
+            display: block;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 400px;
+            max-width: 90vw;
+            height: 100vh;
+            background: rgba(10, 16, 28, .98);
+            border-left: 1px solid var(--gb);
+            z-index: 301;
+            transition: right .3s cubic-bezier(.4, 0, .2, 1);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(40px);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, .5);
+        }
+
+        [data-theme="light"] .drawer {
+            background: rgba(245, 248, 255, .98);
+        }
+
+        .drawer.open {
+            right: 0;
+        }
+
+        .drawer-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gb);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drawer-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .drawer-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--gb);
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        /* TOASTER */
+        #toaster-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            pointer-events: auto;
+            min-width: 200px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: rgba(15, 23, 42, .95);
+            border: 1px solid var(--gb);
+            color: white;
+            font-size: 10.5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+            backdrop-filter: blur(10px);
+            animation: toastIn .3s ease forwards;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @keyframes toastIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.success { border-left: 3px solid var(--ac); }
+        .toast.error { border-left: 3px solid var(--ac3); }
+        .toast.info { border-left: 3px solid var(--ac2); }
+
+        /* CONFIRM MODAL */
+        .confirm-modal {
+            width: 300px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -751,6 +864,10 @@
         <a class="ni {{ request()->routeIs('users') ? 'active' : '' }}" href="{{ route('users') }}"
            data-route="{{ route('users') }}" data-title="Users" data-sub="Manage user accounts">
             <span class="ni-ic">⬟</span><span class="nl">Users</span>
+        </a>
+        <a class="ni {{ request()->routeIs('roles') ? 'active' : '' }}" href="{{ route('roles') }}"
+           data-route="{{ route('roles') }}" data-title="Roles" data-sub="Manage roles and permissions">
+            <span class="ni-ic">🛡</span><span class="nl">Roles</span>
         </a>
         <a class="ni {{ request()->routeIs('products') || request()->routeIs('products.*') ? 'active' : '' }}"
            href="{{ route('products') }}" data-route="{{ route('products') }}" data-title="Products"
@@ -837,9 +954,61 @@
     @stack('modals')
 </div>
 
-<script>
+<!-- ════ DRAWER ════ --><div class="drawer-bg" id="drawer-bg" onclick="closeDrawer()"></div><div class="drawer" id="drawer">    <div class="drawer-header">        <div class="drawer-title" id="drawer-title">Drawer Title</div>        <button onclick="closeDrawer()" style="background:none;border:none;cursor:pointer;color:var(--tm);font-size:18px;">×</button>    </div>    <div class="drawer-body" id="drawer-body"></div>    <div class="drawer-footer" id="drawer-footer"></div></div><!-- ════ TOASTER ════ --><div id="toaster-container"></div><script>
     // ── CSRF SETUP ──
     const CSRF = document.querySelector('meta[name="csrf-token"]').content;
+
+    // ── DRAWER HELPERS ──
+    function openDrawer(title, bodyHtml, footerHtml = '') {
+        document.getElementById('drawer-title').textContent = title;
+        document.getElementById('drawer-body').innerHTML = bodyHtml;
+        document.getElementById('drawer-footer').innerHTML = footerHtml;
+        document.getElementById('drawer-bg').classList.add('open');
+        document.getElementById('drawer').classList.add('open');
+    }
+
+    function closeDrawer() {
+        document.getElementById('drawer-bg').classList.remove('open');
+        document.getElementById('drawer').classList.remove('open');
+    }
+
+    // ── TOASTER HELPER ──
+    function toast(msg, type = 'success') {
+        const container = document.getElementById('toaster-container');
+        const t = document.createElement('div');
+        t.className = `toast ${type}`;
+        t.innerHTML = `<span>${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}</span> <div>${msg}</div>`;
+        container.appendChild(t);
+        setTimeout(() => {
+            t.style.opacity = '0';
+            t.style.transform = 'translateX(20px)';
+            t.style.transition = 'all .3s';
+            setTimeout(() => t.remove(), 300);
+        }, 3000);
+    }
+
+    // ── CONFIRMATION HELPER ──
+    function confirmAction(msg, onConfirm) {
+        const modalHtml = `
+            <div class="modal confirm-modal fi" style="width:300px;text-align:center;">
+                <div class="mtitle" style="justify-content:center;">Confirm Action</div>
+                <div style="font-size:11px;color:var(--tm);margin-bottom:20px;">${msg}</div>
+                <div style="display:flex;gap:7px;justify-content:center;">
+                    <button class="btn" onclick="document.querySelector('.mbg.confirm-wrap').remove()">Cancel</button>
+                    <button class="btn d" id="confirm-btn">Confirm Delete</button>
+                </div>
+            </div>
+        `;
+        const mbg = document.createElement('div');
+        mbg.className = 'mbg open confirm-wrap';
+        mbg.innerHTML = modalHtml;
+        document.body.appendChild(mbg);
+
+        mbg.querySelector('#confirm-btn').onclick = () => {
+            onConfirm();
+            mbg.remove();
+        };
+    }
 
     // ── SIDEBAR TOGGLE ──
     function toggleSB() {

@@ -4,6 +4,8 @@ use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PlaceholderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,7 +18,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reports',   [PlaceholderController::class, 'reports'])->name('reports');
 
 // Management
-    Route::get('/users',    [PlaceholderController::class, 'users'])->name('users');
+    Route::get('/users',    [UserController::class, 'index'])->name('users');
+    Route::get('/users/roles', [UserController::class, 'getRoles'])->name('users.roles');
+    Route::post('/users',   [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    Route::get('/roles',    [RoleController::class, 'index'])->name('roles');
+    Route::get('/roles/permissions', [RoleController::class, 'getPermissions'])->name('roles.permissions');
+    Route::post('/roles',   [RoleController::class, 'store'])->name('roles.store');
+    Route::get('/roles/{role}', [RoleController::class, 'show'])->name('roles.show');
+    Route::put('/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+    Route::delete('/roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
     Route::get('/calendar', [PlaceholderController::class, 'calendar'])->name('calendar');
 
 // Products CRUD (SPA pages + JSON API)
