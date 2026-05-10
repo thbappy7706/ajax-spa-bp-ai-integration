@@ -61,6 +61,12 @@
             <span class="nl">Comments</span>
         </a>
 
+        <div class="slbl" style="margin-top:10px;">AI</div>
+        <a class="ni {{ request()->routeIs('chat') ? 'active' : '' }}" href="{{ route('chat') }}" data-route="{{ route('chat') }}" data-title="Chat Assistant" data-sub="AI-powered conversation">
+            <div class="ni-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M14 12h4"/><path d="M10 12h2"/></svg></div>
+            <span class="nl">Chat</span>
+        </a>
+
         <div class="slbl" style="margin-top:10px;">Preferences</div>
         <a class="ni {{ request()->routeIs('profile') ? 'active' : '' }}" href="{{ route('profile') }}" data-route="{{ route('profile') }}" data-title="Profile" data-sub="Account info">
             <div class="ni-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg></div>

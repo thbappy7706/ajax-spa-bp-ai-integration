@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,27 +26,27 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            \Spatie\Permission\Models\Permission::create(['name' => $permission]);
+            Permission::create(['name' => $permission]);
         }
 
         // Create Roles and assign permissions
-        $adminRole = \Spatie\Permission\Models\Role::create(['name' => 'Super Admin']);
-        $adminRole->givePermissionTo(\Spatie\Permission\Models\Permission::all());
+        $adminRole = Role::create(['name' => 'Super Admin']);
+        $adminRole->givePermissionTo(Permission::all());
 
-        $userRole = \Spatie\Permission\Models\Role::create(['name' => 'User']);
+        $userRole = Role::create(['name' => 'User']);
         $userRole->givePermissionTo(['view products']);
 
         // Create Test User
         $user = User::factory()->create([
             'name' => 'Alex Rivera',
             'email' => 'admin@nexus.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            'password' => Hash::make('password'),
         ]);
 
         $user->assignRole($adminRole);
 
         // Run ProductSeeder for 1 Lac products
-        $this->call(ProductSeeder::class);
+//        $this->call(ProductSeeder::class);
 
         // Run PostSeeder for 50k posts
         $this->call(PostSeeder::class);
