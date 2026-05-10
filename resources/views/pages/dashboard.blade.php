@@ -1,190 +1,123 @@
 @extends('layouts.app')
 
 @section('title', 'Dashboard')
-@section('page-title', 'Dashboard')
-@section('page-sub', "Welcome back, Alex. Here's what's happening today.")
 
 @section('content')
-    {{-- ════ STATS GRID ════ --}}
-    <div class="sgrid">
-        {{-- Revenue --}}
-        <div class="card sc">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
-                <div class="slb">Total Revenue</div>
-                <div
-                    style="width:23px;height:23px;border-radius:6px;background:rgba(34,211,238,.1);display:flex;align-items:center;justify-content:center;">
-                    <svg width="11" height="11" viewBox="0 0 15 15" fill="none">
-                        <path d="M7.5 1L13 4.5V10.5L7.5 14L2 10.5V4.5L7.5 1Z" stroke="#22d3ee" stroke-width="1.3"/>
-                    </svg>
-                </div>
+<div class="topbar fi">
+    <div>
+        <h1 class="ptitle">Dashboard</h1>
+        <div class="psub">Welcome back. Here's a live overview of your system.</div>
+    </div>
+    <div>
+        <button class="btn p" onclick="fetchStats()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Refresh Now
+        </button>
+    </div>
+</div>
+
+{{-- ════ STATS GRID ════ --}}
+<div class="sgrid fi" style="animation-delay: 0.1s;">
+    {{-- Users --}}
+    <div class="card sc">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+            <div class="slb">Total Users</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:rgba(34,211,238,.1);display:flex;align-items:center;justify-content:center;color:#22d3ee;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
-            <div class="sv">$84,294</div>
-            <div style="display:flex;align-items:center;gap:5px;margin-top:5px;"><span
-                    class="bdg bu">▲ 12.4%</span><span style="font-size:8.5px;color:var(--tm);">vs last month</span>
-            </div>
-            <svg width="100%" height="24" viewBox="0 0 200 24" style="margin-top:7px;">
-                <defs>
-                    <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stop-color="#22d3ee" stop-opacity=".22"/>
-                        <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-                <path d="M0,20 L25,16 L50,14 L75,10 L100,12 L125,7 L150,4 L175,2 L200,1" class="spark"
-                      stroke="#22d3ee"/>
-                <path d="M0,20 L25,16 L50,14 L75,10 L100,12 L125,7 L150,4 L175,2 L200,1 L200,24 L0,24Z"
-                      fill="url(#g1)"/>
-            </svg>
         </div>
-        {{-- Active Users --}}
-        <div class="card sc">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
-                <div class="slb">Active Users</div>
-                <div
-                    style="width:23px;height:23px;border-radius:6px;background:rgba(167,139,250,.1);display:flex;align-items:center;justify-content:center;">
-                    <svg width="11" height="11" viewBox="0 0 15 15" fill="none">
-                        <circle cx="7.5" cy="5" r="2.8" stroke="#a78bfa" stroke-width="1.2"/>
-                        <path d="M2 13c0-2.8 2.5-4.5 5.5-4.5s5.5 1.7 5.5 4.5" stroke="#a78bfa" stroke-width="1.2"
-                              stroke-linecap="round"/>
-                    </svg>
-                </div>
+        <div class="sv" id="stat-users">{{ number_format($usersCount) }}</div>
+        <div style="display:flex;align-items:center;gap:5px;margin-top:5px;"><span class="bdg bu">Live</span><span style="font-size:9.5px;color:var(--muted-foreground);">Registered accounts</span></div>
+    </div>
+    {{-- Categories --}}
+    <div class="card sc">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+            <div class="slb">Categories</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:rgba(167,139,250,.1);display:flex;align-items:center;justify-content:center;color:#a78bfa;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
             </div>
-            <div class="sv">24,810</div>
-            <div style="display:flex;align-items:center;gap:5px;margin-top:5px;"><span class="bdg bu"
-                                                                                       style="background:rgba(167,139,250,.1);color:var(--ac2);">▲ 8.1%</span><span
-                    style="font-size:8.5px;color:var(--tm);">vs last month</span></div>
-            <svg width="100%" height="24" viewBox="0 0 200 24" style="margin-top:7px;">
-                <defs>
-                    <linearGradient id="g2" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stop-color="#a78bfa" stop-opacity=".22"/>
-                        <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-                <path d="M0,18 L35,14 L70,17 L105,9 L140,11 L170,4 L200,1" class="spark" stroke="#a78bfa"/>
-                <path d="M0,18 L35,14 L70,17 L105,9 L140,11 L170,4 L200,1 L200,24 L0,24Z" fill="url(#g2)"/>
-            </svg>
         </div>
-        {{-- Orders --}}
-        <div class="card sc">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
-                <div class="slb">New Orders</div>
-                <div
-                    style="width:23px;height:23px;border-radius:6px;background:rgba(244,114,182,.1);display:flex;align-items:center;justify-content:center;">
-                    <svg width="11" height="11" viewBox="0 0 15 15" fill="none">
-                        <rect x="2" y="2" width="11" height="11" rx="2" stroke="#f472b6" stroke-width="1.2"/>
-                        <path d="M5 7.5h5M7.5 5v5" stroke="#f472b6" stroke-width="1.2" stroke-linecap="round"/>
-                    </svg>
-                </div>
+        <div class="sv" id="stat-categories">{{ number_format($categoriesCount) }}</div>
+        <div style="display:flex;align-items:center;gap:5px;margin-top:5px;"><span class="bdg" style="background:rgba(167,139,250,.1);color:#a78bfa;">Live</span><span style="font-size:9.5px;color:var(--muted-foreground);">Content groups</span></div>
+    </div>
+    {{-- Posts --}}
+    <div class="card sc">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+            <div class="slb">Total Posts</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:rgba(244,114,182,.1);display:flex;align-items:center;justify-content:center;color:#f472b6;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
-            <div class="sv">1,429</div>
-            <div style="display:flex;align-items:center;gap:5px;margin-top:5px;"><span class="bdg bd">▼ 3.2%</span><span
-                    style="font-size:8.5px;color:var(--tm);">vs last month</span></div>
-            <svg width="100%" height="24" viewBox="0 0 200 24" style="margin-top:7px;">
-                <defs>
-                    <linearGradient id="g3" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stop-color="#f472b6" stop-opacity=".22"/>
-                        <stop offset="100%" stop-color="#f472b6" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-                <path d="M0,10 L40,8 L80,12 L120,7 L160,14 L200,6" class="spark" stroke="#f472b6"/>
-                <path d="M0,10 L40,8 L80,12 L120,7 L160,14 L200,6 L200,24 L0,24Z" fill="url(#g3)"/>
-            </svg>
         </div>
-        {{-- Conversion --}}
-        <div class="card sc">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
-                <div class="slb">Conversion</div>
-                <div
-                    style="width:23px;height:23px;border-radius:6px;background:rgba(74,222,128,.1);display:flex;align-items:center;justify-content:center;">
-                    <svg width="11" height="11" viewBox="0 0 15 15" fill="none">
-                        <path d="M2 10L5.5 6.5L8 9L13 3" stroke="#4ade80" stroke-width="1.3" stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                    </svg>
-                </div>
+        <div class="sv" id="stat-posts">{{ number_format($postsCount) }}</div>
+        <div style="display:flex;align-items:center;gap:5px;margin-top:5px;"><span class="bdg bd" style="color:#f472b6;background:rgba(244,114,182,.15);border-color:transparent;">Live</span><span style="font-size:9.5px;color:var(--muted-foreground);">Published & Drafts</span></div>
+    </div>
+    {{-- Comments --}}
+    <div class="card sc">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+            <div class="slb">Comments</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:rgba(74,222,128,.1);display:flex;align-items:center;justify-content:center;color:#4ade80;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             </div>
-            <div class="sv">5.74%</div>
-            <div style="display:flex;align-items:center;gap:5px;margin-top:5px;"><span class="bdg bg">▲ 0.6%</span><span
-                    style="font-size:8.5px;color:var(--tm);">vs last month</span></div>
-            <svg width="100%" height="24" viewBox="0 0 200 24" style="margin-top:7px;">
-                <defs>
-                    <linearGradient id="g4" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stop-color="#4ade80" stop-opacity=".22"/>
-                        <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-                <path d="M0,20 L50,17 L100,14 L150,8 L200,3" class="spark" stroke="#4ade80"/>
-                <path d="M0,20 L50,17 L100,14 L150,8 L200,3 L200,24 L0,24Z" fill="url(#g4)"/>
-            </svg>
+        </div>
+        <div class="sv" id="stat-comments">{{ number_format($commentsCount) }}</div>
+        <div style="display:flex;align-items:center;gap:5px;margin-top:5px;"><span class="bdg bg">Live</span><span style="font-size:9.5px;color:var(--muted-foreground);">User feedback</span></div>
+    </div>
+</div>
+
+{{-- ════ CHART GRID ════ --}}
+<div class="frow fi" style="animation-delay: 0.2s; margin-bottom: 20px;">
+    {{-- Bar Chart --}}
+    <div class="card" style="padding:20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <div>
+                <div style="font-family:'Inter',sans-serif;font-size:14px;font-weight:600;">System Activity</div>
+                <div style="font-size:11px;color:var(--muted-foreground);">Events per timeframe</div>
+            </div>
+        </div>
+        <div style="position: relative; height: 200px; width: 100%;">
+            <canvas id="activityBarChart"></canvas>
         </div>
     </div>
 
-    {{-- ════ CHART + ACTIVITY GRID ════ --}}
-    <div class="mgrid">
-        {{-- Bar Chart --}}
-        <div class="card" style="padding:14px;">
-            <div
-                style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:6px;">
-                <div>
-                    <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;">Revenue Overview</div>
-                    <div style="font-size:8.5px;color:var(--tm);">Monthly breakdown</div>
-                </div>
-                <div style="display:flex;gap:3px;">
-                    <button class="btn" onclick="setPd('W',this)">W</button>
-                    <button class="btn p" onclick="setPd('M',this)">M</button>
-                    <button class="btn" onclick="setPd('Y',this)">Y</button>
-                </div>
+    {{-- Pie Chart --}}
+    <div class="card" style="padding:20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <div>
+                <div style="font-family:'Inter',sans-serif;font-size:14px;font-weight:600;">Posts Status Distribution</div>
+                <div style="font-size:11px;color:var(--muted-foreground);">Published vs Draft vs Archived</div>
             </div>
-            <div id="cbars" style="display:flex;align-items:flex-end;gap:5px;height:80px;"></div>
-            <div id="clbls" style="display:flex;margin-top:4px;"></div>
         </div>
-
-        {{-- Activity Feed --}}
-        <div class="card" style="padding:14px;">
-            <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;margin-bottom:12px;">Recent
-                Activity
-            </div>
-            @foreach($activity as $item)
-                <div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start;">
-                    <div
-                        style="width:22px;height:22px;border-radius:6px;background:{{ $item['bg'] }};display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:8px;">{{ $item['icon'] }}</div>
-                    <div style="flex:1;min-width:0;">
-                        <div style="font-size:10px;font-weight:500;line-height:1.3;">{{ $item['msg'] }}</div>
-                        <div style="font-size:8.5px;color:var(--tm);margin-top:1px;">{{ $item['time'] }}</div>
-                    </div>
-                </div>
-            @endforeach
+        <div style="position: relative; height: 200px; width: 100%; display: flex; justify-content: center;">
+            <canvas id="postsPieChart"></canvas>
         </div>
     </div>
+</div>
 
-    {{-- ════ RECENT ORDERS TABLE ════ --}}
+{{-- ════ TABLES GRID ════ --}}
+<div class="frow fi" style="animation-delay: 0.3s;">
+    {{-- Recent Posts Table --}}
     <div class="card" style="padding:14px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;">Recent Orders</div>
-            <a href="{{ route('products') }}" class="btn p spa-link" data-title="Products" data-sub="Manage products"
-               style="font-size:9px;">View all →</a>
+            <div style="font-family:'Inter',sans-serif;font-size:13px;font-weight:600;">Recent Posts</div>
+            <a href="{{ route('posts.index') }}" class="btn p spa-link" style="font-size:11px;">View all →</a>
         </div>
         <div style="overflow-x:auto;">
-            <table style="min-width:420px;">
+            <table style="width:100%; text-align: left; border-collapse: collapse;">
                 <thead>
-                <tr>
-                    <th>Order</th>
-                    <th>Customer</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Date</th>
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <th style="padding: 8px 4px; font-size: 11px; color: var(--muted-foreground); font-weight: 500;">Title</th>
+                    <th style="padding: 8px 4px; font-size: 11px; color: var(--muted-foreground); font-weight: 500;">Category</th>
+                    <th style="padding: 8px 4px; font-size: 11px; color: var(--muted-foreground); font-weight: 500;">Status</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($orders as $o)
-                    <tr onmouseenter="this.style.background='var(--gs)'"
-                        onmouseleave="this.style.background='transparent'" style="transition:background .1s;">
-                        <td style="font-size:9px;color:var(--tm);">#{{ $o['id'] }}</td>
-                        <td style="font-weight:500;">{{ $o['customer'] }}</td>
-                        <td style="font-weight:600;">{{ $o['amount'] }}</td>
-                        <td>
-                            <span
-                                style="background:{{ $o['status_bg'] }};color:{{ $o['status_color'] }};padding:1px 6px;border-radius:4px;font-size:8.5px;">{{ $o['status'] }}</span>
+                @foreach($recentPosts as $post)
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding: 10px 4px; font-size: 13px; font-weight: 500; color: var(--foreground);">{{ Str::limit($post->title, 30) }}</td>
+                        <td style="padding: 10px 4px; font-size: 12px; color: var(--muted-foreground);">{{ $post->category ? $post->category->name : 'N/A' }}</td>
+                        <td style="padding: 10px 4px;">
+                            <span class="bdg {{ $post->status === 'published' ? 'bu' : ($post->status === 'draft' ? 'bg' : 'bd') }}">{{ ucfirst($post->status) }}</span>
                         </td>
-                        <td style="color:var(--tm);font-size:9px;">{{ $o['date'] }}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -192,47 +125,160 @@
         </div>
     </div>
 
-    <script>
-        const CD = {
-            W: {d: [42, 58, 35, 72, 65, 80, 91], l: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']},
-            M: {
-                d: [54, 72, 61, 85, 79, 92, 68, 88, 74, 96, 83, 100],
-                l: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    {{-- Recent Comments --}}
+    <div class="card" style="padding:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <div style="font-family:'Inter',sans-serif;font-size:13px;font-weight:600;">Recent Comments</div>
+            <a href="{{ route('comments.index') }}" class="btn p spa-link" style="font-size:11px;">View all →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+            @foreach($recentComments as $comment)
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:600;">
+                        {{ substr($comment->user->name ?? 'U', 0, 1) }}
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="display:flex;justify-content:space-between;">
+                            <div style="font-size:12px;font-weight:600;">{{ $comment->user->name ?? 'Anonymous' }}</div>
+                            <div style="font-size:10px;color:var(--muted-foreground);">{{ $comment->created_at->diffForHumans() }}</div>
+                        </div>
+                        <div style="font-size:12px;color:var(--muted-foreground);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            {{ $comment->content }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    let barChart = window.dbBarChart;
+    let pieChart = window.dbPieChart;
+
+    function initCharts() {
+        const rootStyles = getComputedStyle(document.documentElement);
+        const primaryColor = 'hsl(210 100% 50%)'; // fallback
+        const accentColor = 'hsl(280 80% 60%)'; 
+        const textColor = rootStyles.getPropertyValue('--muted-foreground') || '#888';
+        const gridColor = rootStyles.getPropertyValue('--border') || '#333';
+
+        // Helper to extract colors if css variables are in oklch
+        const chartColors = ['#22d3ee', '#a78bfa', '#f472b6', '#4ade80', '#fbbf24', '#f87171'];
+
+        Chart.defaults.color = textColor;
+        Chart.defaults.font.family = 'Inter, sans-serif';
+
+        if (window.dbBarChart) { window.dbBarChart.destroy(); }
+        if (window.dbPieChart) { window.dbPieChart.destroy(); }
+
+        const ctxBar = document.getElementById('activityBarChart').getContext('2d');
+        window.dbBarChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Activity',
+                    data: [65, 59, 80, 81, 56, 55],
+                    backgroundColor: chartColors[0] + '80',
+                    borderColor: chartColors[0],
+                    borderWidth: 1,
+                    borderRadius: 4,
+                }]
             },
-            Y: {d: [68, 74, 80, 72, 85, 91], l: ['2020', '2021', '2022', '2023', '2024', '2025']}
-        };
-        const CC = ['#22d3ee', '#a78bfa', '#f472b6', '#4ade80', '#fbbf24', '#22d3ee', '#a78bfa', '#f472b6', '#4ade80', '#fbbf24', '#22d3ee', '#a78bfa'];
-
-        function renderCh(p) {
-            const {d, l} = CD[p], mx = Math.max(...d);
-            document.getElementById('cbars').innerHTML = d.map((v, i) => `
-    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
-      <span style="font-size:8px;color:var(--tm);">${v}</span>
-      <div style="width:100%;height:${(v / mx) * 76}px;border-radius:4px 4px 0 0;background:${CC[i % CC.length]}20;border:1px solid ${CC[i % CC.length]}44;position:relative;overflow:hidden;cursor:pointer;" title="${l[i]}: ${v}k">
-        <div style="position:absolute;bottom:0;left:0;right:0;height:55%;background:${CC[i % CC.length]}30;"></div>
-      </div>
-    </div>`).join('');
-            document.getElementById('clbls').innerHTML = l.map(x => `<div style="flex:1;text-align:center;font-size:8px;color:var(--tm);">${x}</div>`).join('');
-        }
-
-        function setPd(p, btn) {
-            document.querySelectorAll('button[onclick^="setPd"]').forEach(b => b.className = 'btn');
-            btn.className = 'btn p';
-            renderCh(p);
-        }
-
-        renderCh('M');
-
-        // Wire "View all" link as SPA
-        document.querySelectorAll('.spa-link').forEach(link => {
-            link.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
-                document.querySelectorAll('.ni').forEach(n => {
-                    if (n.href === this.href) n.classList.add('active');
-                });
-                navigateTo(this.href);
-            });
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: gridColor + '40' }, border: { display: false } },
+                    x: { grid: { display: false }, border: { display: false } }
+                }
+            }
         });
-    </script>
+
+        const ctxPie = document.getElementById('postsPieChart').getContext('2d');
+        window.dbPieChart = new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: ['Published', 'Draft', 'Archived'],
+                datasets: [{
+                    data: [300, 50, 100],
+                    backgroundColor: [chartColors[3], chartColors[4], chartColors[5]],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } }
+                }
+            }
+        });
+    }
+
+    // Initialize charts on load
+    initCharts();
+
+    // Polling function
+    window.fetchStats = function() {
+        fetch('{{ route("dashboard.stats") }}', {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            // Update cards with animation
+            updateCounter('stat-users', data.users);
+            updateCounter('stat-posts', data.posts);
+            updateCounter('stat-categories', data.categories);
+            updateCounter('stat-comments', data.comments);
+
+            // Update charts
+            if (window.dbBarChart) {
+                window.dbBarChart.data.datasets[0].data = data.barData;
+                window.dbBarChart.update();
+            }
+            if (window.dbPieChart) {
+                window.dbPieChart.data.datasets[0].data = data.pieData;
+                window.dbPieChart.update();
+            }
+        });
+    }
+
+    function updateCounter(id, val) {
+        const el = document.getElementById(id);
+        if(el && el.innerText !== val.toLocaleString()) {
+            el.innerText = val.toLocaleString();
+            el.style.transform = 'scale(1.1)';
+            el.style.color = 'var(--primary)';
+            setTimeout(() => {
+                el.style.transform = 'scale(1)';
+                el.style.color = '';
+            }, 300);
+        }
+    }
+
+    // Poll every 10 seconds
+    const pollInterval = setInterval(window.fetchStats, 10000);
+
+    // Initial fetch to populate real chart data immediately
+    window.fetchStats();
+
+    // Clean up interval when navigating away in SPA
+    document.addEventListener('spa:navigated', () => {
+        clearInterval(pollInterval);
+    }, { once: true });
+})();
+</script>
+
+<style>
+    .sv { transition: transform 0.3s ease, color 0.3s ease; display: inline-block; }
+</style>
 @endsection
