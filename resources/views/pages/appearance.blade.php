@@ -63,12 +63,10 @@
 
 <script>
     function setTheme(t) {
-        document.documentElement.setAttribute('data-theme', t);
+        isDark = (t === 'dark');
+        applyTheme(isDark);
         document.querySelectorAll('.theme-card').forEach(c => c.style.borderColor = 'var(--gb)');
         document.getElementById('theme-' + t).style.borderColor = 'var(--ac)';
-        // Sync the topbar toggle if it exists
-        const dtgl = document.getElementById('dtgl');
-        if (dtgl) dtgl.classList.toggle('on', t === 'dark');
         toast('Theme updated to ' + t);
     }
 

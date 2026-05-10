@@ -8,6 +8,7 @@
     <link href="https://fonts.bunny.net/css?family=Nunito:400,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nexus.css') }}">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -149,11 +150,25 @@
     // ── DARK MODE ──
     let isDark = true;
 
+    function applyTheme(dark) {
+        const root = document.documentElement;
+        if (dark) {
+            root.setAttribute('data-theme', 'dark');
+            root.classList.add('dark');
+        } else {
+            root.setAttribute('data-theme', 'light');
+            root.classList.remove('dark');
+        }
+        document.getElementById('dtgl').classList.toggle('on', dark);
+    }
+
     function toggleDark() {
         isDark = !isDark;
-        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-        document.getElementById('dtgl').classList.toggle('on', isDark);
+        applyTheme(isDark);
     }
+
+    // Apply on load (default: dark)
+    applyTheme(isDark);
 
     // ── NOTIFICATION ──
     function showNotif() {

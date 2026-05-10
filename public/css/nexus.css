@@ -1,24 +1,41 @@
-:root {
-    --bg: #080c14;
-    --surface: rgba(255, 255, 255, .05);
-    --gb: rgba(255, 255, 255, .09);
-    --gs: rgba(255, 255, 255, .07);
-    --ac: #22d3ee;
-    --ac2: #a78bfa;
-    --ac3: #f472b6;
-    --tp: #e8eeff;
-    --tm: rgba(155, 175, 210, .65);
-    --sw: 210px;
-    --sc: 52px;
+/*
+ * ── ThbPlate: Bridge from tweakcn → internal vars ─────────────
+ * theme.css (tweakcn output) is loaded first in app.blade.php.
+ * These rules map tweakcn's standard variables to ThbPlate's
+ * internal --bg, --ac, --tp, --tm, --gb, --surface, --gs vars.
+ *
+ * Dark mode (data-theme="dark"): reads from .dark{} in theme.css
+ * Light mode (data-theme="light"): reads from :root{} in theme.css
+ * ──────────────────────────────────────────────────────────────
+ */
+
+/* ── LIGHT MODE (theme.css :root values) ── */
+[data-theme="light"] {
+    --bg:      var(--background,      #edf1f8);
+    --tp:      var(--foreground,      #111827);
+    --surface: var(--card,            rgba(255,255,255,.55));
+    --gb:      var(--border,          rgba(100,130,200,.16));
+    --gs:      var(--sidebar,         rgba(255,255,255,.7));
+    --ac:      var(--primary,         #22d3ee);
+    --ac2:     var(--ring,            #a78bfa);
+    --ac3:     var(--destructive,     #f472b6);
+    --tm:      var(--muted-foreground,#6b7a99);
 }
 
-[data-theme="light"] {
-    --bg: #edf1f8;
-    --surface: rgba(255, 255, 255, .55);
-    --gb: rgba(100, 130, 200, .16);
-    --gs: rgba(255, 255, 255, .7);
-    --tp: #111827;
-    --tm: #6b7a99;
+/* ── DARK MODE (theme.css .dark values) ── */
+:root,
+[data-theme="dark"] {
+    --bg:      var(--background,      #080c14);
+    --tp:      var(--foreground,      #e8eeff);
+    --surface: var(--card,            rgba(255,255,255,.05));
+    --gb:      var(--border,          rgba(255,255,255,.09));
+    --gs:      var(--sidebar,         rgba(255,255,255,.07));
+    --ac:      var(--sidebar-primary, #22d3ee);
+    --ac2:     var(--ring,            #a78bfa);
+    --ac3:     var(--destructive,     #f472b6);
+    --tm:      var(--muted-foreground,rgba(155,175,210,.65));
+    --sw: 210px;
+    --sc: 52px;
 }
 
 * {
